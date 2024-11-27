@@ -1,0 +1,59 @@
+class Solution {
+    public int myAtoi(String s) {
+        int i=0;
+        int res = 0;
+        int pos = 0;
+        int ca = 0;
+        ArrayList<Integer> nums = new ArrayList<>();
+        while (i<s.length()){
+            if (s.charAt(i) == '-' && nums.size()==0 &&  ca==0){
+                pos = -1;
+                ca++;
+            }
+            else if (s.charAt(i) == '+' && nums.size()==0 && ca==0){
+                pos = 1;
+                ca++;
+            }
+            else if ('0' <= s.charAt(i) && s.charAt(i) <= '9'){
+                nums.add(s.charAt(i)-'0');
+            }
+            else if (s.charAt(i) != ' '){
+                if (nums.size() == 0){
+                    return 0;
+                }
+                else{
+                    break;
+                }
+            }
+            else if (s.charAt(i) == ' '){
+                if (nums.size() != 0 || ca != 0){
+                    break;
+                }
+            }
+            else{
+                return 0;
+            }
+            
+            i++;
+        }
+
+        for (int k=0; k<nums.size(); k++){
+             try{
+                res = Math.multiplyExact(res,10);
+                res = Math.addExact(res,nums.get(k));
+             }
+             catch(Exception e){
+                
+                 if (pos==-1){
+                    return Integer.MIN_VALUE;
+                 }
+                 else{
+                    return Integer.MAX_VALUE;
+                 }
+             }
+        }
+        pos = pos==0 ? 1 : pos;
+        return pos*res;
+
+    }
+}
